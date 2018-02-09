@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>饿了么 · 一键领取手气最佳红包</title>
+  <link href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    html,
+    body {
+      height: 100%;
+    }
+    body {
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .panel {
+      width: 375px;
+      height: 375px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="panel panel-default">
+    <div class="panel-heading">饿了么 · 一键领取手气最佳红包</div>
+    <div class="panel-body">
+      <p>提示：红包已经被你领过的，就别试了，换一个。切记不要在微信点开链接领取红包，从浏览器打开复制链接</p>
+      <div class="form-group">
+        <label for="mobile">要领取最佳红包的手机号码</label>
+        <input type="mobile" class="form-control" id="mobile" placeholder="11位手机号码">
+      </div>
+      <div class="form-group">
+        <label for="url">饿了么分享出来的红包链接</label>
+        <input type="text" class="form-control" id="url" placeholder="https://h5.ele.me/hongbao/开头的链接">
+      </div>
+      <div class="form-group" style="display: flex; justify-content: space-between;">
+        <button type="button" class="btn btn-primary" id="submit">马上领取</button>
+      </div>
+      <div>
+        <pre>领取时间大概在 15~30 秒左右，请耐心等待</pre>
+      </div>
+    </div>
+  </div>
+
+  <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    $('#submit').on('click', function (e) {
+      var $submit = $(this)
+      $submit.text('正在领取...').prop('disabled', true)
+      $.post('/maxhb/max', {
+          url: $.trim($('#url').val()),
+          mobile: $.trim($('#mobile').val())
+        })
+        .always(function () {
+          $submit.text('马上领取').prop('disabled', false)
+        })
+        .done(function (res) {
+          alert(res.message)
+        })
+        .fail(function (err) {
+          alert('服务器繁忙')
+        })
+    })
+  </script>
+  <script>
+    // var _hmt = _hmt || [];
+    // (function () {
+    //   var hm = document.createElement("script");
+    //   hm.src = "https://hm.baidu.com/hm.js?ec94314b337fdff17cf09e9040847912";
+    //   var s = document.getElementsByTagName("script")[0];
+    //   s.parentNode.insertBefore(hm, s);
+    // })();
+  </script>
+</body>
+
+</html>
